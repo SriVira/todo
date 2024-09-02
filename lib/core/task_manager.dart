@@ -11,7 +11,7 @@ class Taskmanager {
     Workmanager().registerPeriodicTask(
         'syncHiveToFirebase', 'syncHiveToFirebase',
         initialDelay: const Duration(minutes: 1),
-        frequency: const Duration(minutes: 15));
+        frequency: const Duration(hours: 6));
   }
 
   static Future<void> syncHiveToFirebase() async {
