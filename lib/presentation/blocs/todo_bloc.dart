@@ -75,56 +75,6 @@ class ToDoError extends ToDoState {
   List<Object> get props => [message];
 }
 
-/* class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
-  final ToDoRepository repository;
-
-  ToDoBloc(this.repository) : super(ToDoLoading()) {
-    on<LoadToDos>(_onLoadToDos);
-    on<AddToDo>(_onAddToDo);
-    on<UpdateToDo>(_onUpdateToDo);
-    on<DeleteToDo>(_onDeleteToDo);
-  }
-
-  void _onLoadToDos(LoadToDos event, Emitter<ToDoState> emit) async {
-    emit(ToDoLoading());
-    try {
-      final todos = await repository.getToDos();
-      emit(ToDoLoaded(todos));
-    } catch (e) {
-      emit(ToDoError(e.toString()));
-    }
-  }
-
-  void _onAddToDo(AddToDo event, Emitter<ToDoState> emit) async {
-    if (state is ToDoLoaded) {
-      await repository.addTask(task: event.todo);
-      final updatedTodos = List<ToDoModel>.from((state as ToDoLoaded).todos)
-        ..add(event.todo);
-
-      emit(ToDoLoaded(updatedTodos));
-    }
-  }
-
-  void _onUpdateToDo(UpdateToDo event, Emitter<ToDoState> emit) async {
-    if (state is ToDoLoaded) {
-      await repository.updateTask(task: event.todo);
-      final updatedTodos = (state as ToDoLoaded).todos.map((todo) {
-        return todo.id == event.todo.id ? event.todo : todo;
-      }).toList();
-      emit(ToDoLoaded(updatedTodos));
-    }
-  }
-
-  void _onDeleteToDo(DeleteToDo event, Emitter<ToDoState> emit) async {
-    if (state is ToDoLoaded) {
-      await repository.dalateTask(task: event.todo);
-      final updatedTodos = (state as ToDoLoaded).todos.toList();
-      emit(ToDoLoaded(updatedTodos));
-    }
-  }
-}
- */
-
 class ToDoBloc extends Bloc<ToDoEvent, ToDoState> {
   ToDoBloc() : super(ToDoInitial()) {
     on<ToDoEvent>((event, emit) async {
