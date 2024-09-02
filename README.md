@@ -42,34 +42,43 @@ Here’s a plan to tackle the assignment:
 - **Cost Efficiency**: Monitor Firebase usage to ensure cost-efficiency, and optimize as necessary.
 
 ### Example Code Snippets
-**Hive Initialization**:
+**Hive And Firebase Initialization**:
 ```dart
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await Hive.initFlutter();
-  await Hive.openBox('todoBox');
+  Hive.registerAdapter(ToDoModelAdapter());
+  await Hive.openBox<ToDoModel>('todos');
   runApp(MyApp());
 }
 ```
 
 **Background Sync**:
 ```dart
-void backgroundSync() {
-  // Code to sync local Hive data with Firestore
-}
+  // Initialize WorkManager
+  Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+
+  // Register the periodic task
+  Taskmanager.registerPeriodicTaskTodo();
 ```
 
 **Localization**:
 ```dart
 // Add support for multiple locales
-MaterialApp(
-  supportedLocales: [Locale('en'), Locale('ar')],
-  localizationsDelegates: [
-    GlobalMaterialLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ],
-  // Other properties
-)
+GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter Demo',
+              locale: localeController.locale.value,
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+                useMaterial3: true,
+              ),
+              home: const TodoListScreen())
 ```
 
 **Animations**:
